@@ -1,0 +1,29 @@
+services:
+  server:
+    image: makerthon
+    build: .
+    volumes:
+      - ./cmd:/go/src/makerthon/cmd
+      - ./public:/go/src/makerthon/public
+      - ./models:/go/src/makerthon/models
+      - ./views:/go/src/makerthon/views
+      - ./controllers:/go/src/makerthon/controllers
+    environment:
+      PORT: :3000
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: example
+      POSTGRES_PASSWORD: exampledb
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
