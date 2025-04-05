@@ -23,9 +23,15 @@ func main() {
 
 	r := gin.Default()
 	r.Static("/public", "./public")
-
 	r.GET("", func(ctx *gin.Context) { ctx.Redirect(http.StatusPermanentRedirect, "/home") })
-	controllers.NewHomeController(controllers.NewController(r.Group("/home"), nil)).LoadRoutes()
+
+	ctls := map[string]controllers.Controller{
+		"/home": controllers.NewHomeController(),
+	}
+
+	for route, ctl := range ctls {
+		ctl.LoadRoutes(r.Group(route))
+	}
 
 	r.Run(os.Getenv("SERVER_PORT"))
 }

@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"log"
 	"makerthon/models"
 	"makerthon/views"
 	"net/http"
@@ -10,44 +9,50 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type homeController struct{ *controller }
+type homeController struct{}
 
-func NewHomeController(ctl *controller) *homeController {
-	return &homeController{controller: ctl}
-}
+func NewHomeController() *homeController { return &homeController{} }
 
-func (hc *homeController) LoadRoutes() {
-	router := hc.controller.router
+func (hc *homeController) LoadRoutes(router *gin.RouterGroup) {
+	assertRouteGroup(router, "home")
+
 	router.GET("", hc.GetHomePage)
 	router.GET("/dog-image", hc.GetDogImage)
 }
 
 func (hc *homeController) GetHomePage(ctx *gin.Context) {
-	views.Home().Render(ctx, ctx.Writer)
+	if url, err := getDogImageUrl(); err != nil {
+		ctx.AbortWithError(http.StatusInternalServerError, err)
+		return
+	} else {
+		ctx.Set("src", url)
+		views.Home().Render(ctx, ctx.Writer)
+	}
 }
 
 func (hc *homeController) GetDogImage(ctx *gin.Context) {
-	src, err := getDogImage()
-	if err == nil {
-		views.DogImage(src, "this is a dog").Render(ctx, ctx.Writer)
+	if url, err := getDogImageUrl(); err != nil {
+		ctx.AbortWithError(http.StatusInternalServerError, err)
 		return
+	} else {
+		ctx.Set("src", url)
+		views.DogImage().Render(ctx, ctx.Writer)
 	}
-	msg := "something went wrong when retrieving dog image"
-	ctx.Status(http.StatusInternalServerError)
-	ctx.Header("Content-Type", "text/html")
-	views.DogImage("", msg).Render(ctx, ctx.Writer)
-	log.Println(msg, err)
 }
 
-func getDogImage() (string, error) {
+func getDogImageUrl() (string, error) {
 	resp, err := http.Get("https://dog.ceo/api/breeds/image/random")
+
 	if err != nil {
 		return "", err
 	}
+
 	defer resp.Body.Close()
 	dog := models.DogImage{}
+
 	if err = json.NewDecoder(resp.Body).Decode(&dog); err != nil {
 		return "", err
 	}
+
 	return dog.Message, nil
 }
