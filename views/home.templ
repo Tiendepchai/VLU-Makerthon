@@ -3,7 +3,7 @@ package views
 templ Home() {
 	@Page() {
 		<div class="h-screen flex flex-col justify-center items-center">
-			@DogImage("", "this is a dog")
+			@DogImage()
 			<button
 				hx-get="/home/dog-image"
 				hx-trigger="click"
@@ -16,6 +16,6 @@ templ Home() {
 	}
 }
 
-templ DogImage(src string, alt string) {
-	<img id="dog-image" src={ src } alt={ alt }/>
+templ DogImage() {
+	<img id="dog-image" src={ ctx.Value("src").(string) } alt="this is an image of a dog"/>
 }

@@ -7,15 +7,18 @@ import (
 	"gorm.io/gorm"
 )
 
-type controller struct {
-	router *gin.RouterGroup
-	db     *gorm.DB
+type Controller interface {
+	LoadRoutes(router *gin.RouterGroup)
 }
 
-func NewController(router *gin.RouterGroup, db *gorm.DB) *controller {
+func assertRouteGroup(router *gin.RouterGroup, name string) {
 	if router == nil {
-		log.Fatalln("route group should not be nil")
-		return nil
+		log.Fatalf("missing router on the %s controller", name)
 	}
-	return &controller{router: router, db: db}
+}
+
+func assertDatabase(db *gorm.DB, name string) {
+	if db == nil {
+		log.Fatalf("missing db on the %s controller", name)
+	}
 }
