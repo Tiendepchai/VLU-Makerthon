@@ -1,3 +1,4 @@
+node_modules
 Session.vim
 views/*_templ.go
 public/style.css
