@@ -1,0 +1,21 @@
+package views
+
+templ Home() {
+	@Page() {
+		<div class="h-screen flex flex-col justify-center items-center">
+			@DogImage("", "this is a dog")
+			<button
+				hx-get="/home/dog-image"
+				hx-trigger="click"
+				hx-target="#dog-image"
+				hx-swap="outerHTML"
+			>
+				Get a dog
+			</button>
+		</div>
+	}
+}
+
+templ DogImage(src string, alt string) {
+	<img id="dog-image" src={ src } alt={ alt }/>
+}

@@ -9,7 +9,8 @@ services:
       - ./views:/go/src/makerthon/views
       - ./controllers:/go/src/makerthon/controllers
     environment:
-      PORT: :3000
+      SERVER_PORT: :3000
+      POSTGRES_DNS: host=db user=example password=exampledb dbname=vlu_makerthon port=5432
     ports:
       - 3000:3000
     depends_on:
@@ -20,6 +21,7 @@ services:
     environment:
       POSTGRES_USER: example
       POSTGRES_PASSWORD: exampledb
+      POSTGRES_DB: vlu_makerthon
     ports:
       - 5432:5432
 
