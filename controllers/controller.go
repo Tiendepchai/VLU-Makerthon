@@ -12,10 +12,10 @@ type controller struct {
 	db     *gorm.DB
 }
 
-func NewController(routeGroup *gin.RouterGroup, db *gorm.DB) *controller {
-	if routeGroup == nil {
+func NewController(router *gin.RouterGroup, db *gorm.DB) *controller {
+	if router == nil {
 		log.Fatalln("route group should not be nil")
 		return nil
 	}
-	return &controller{router: routeGroup, db: db}
+	return &controller{router: router, db: db}
 }
