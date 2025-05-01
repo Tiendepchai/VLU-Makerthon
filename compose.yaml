@@ -9,8 +9,17 @@ services:
       - ./views:/go/src/makerthon/views
       - ./controllers:/go/src/makerthon/controllers
     environment:
-      SERVER_PORT: :3000
-      POSTGRES_DNS: host=db user=example password=exampledb dbname=vlu_makerthon port=5432
+      - SERVER_PORT=${SERVER_PORT}
+      - POSTGRES_DNS=${POSTGRES_DNS}
+      - BASE_URL=${BASE_URL}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_FROM=${SMTP_FROM}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - VERIFICATION_URL=${VERIFICATION_URL}
+      - DOCUMENT_ANALYSIS_API=${DOCUMENT_ANALYSIS_API}
     ports:
       - 3000:3000
     depends_on:

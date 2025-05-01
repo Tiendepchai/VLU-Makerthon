@@ -1,6 +1,6 @@
 package models
 
 type DogImage struct {
-	Message string
-	Status  string
+    Message string `json:"message"`
+    Status  string `json:"status"`
 }

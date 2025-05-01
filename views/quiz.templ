@@ -1,0 +1,401 @@
+package views
+
+import (
+    "fmt"
+    "makerthon/models"
+    "strconv"
+    "os" 
+    "strings" 
+)
+
+templ CreateQuiz() {
+    @Page() {
+        <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <h1 class="text-2xl font-bold text-gray-900 mb-6">Tạo Quiz mới</h1>
+                
+                if ctx.Value("error") != nil {
+                    <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+                        <p>{ ctx.Value("error").(string) }</p>
+                    </div>
+                }
+                
+                <form method="POST" action="/quiz/create" enctype="multipart/form-data" class="space-y-6">
+                    <div>
+                        <label for="title" class="block text-sm font-medium text-gray-700">Tiêu đề Quiz</label>
+                        <input type="text" name="title" id="title" required
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            placeholder="Nhập tiêu đề quiz" />
+                    </div>
+                    
+                    <div>
+                        <label for="description" class="block text-sm font-medium text-gray-700">Mô tả</label>
+                        <textarea name="description" id="description" rows="3"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            placeholder="Mô tả ngắn về quiz của bạn"></textarea>
+                    </div>
+                    
+                    <div>
+                        <label for="document" class="block text-sm font-medium text-gray-700">Tài liệu</label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                            <div class="space-y-1 text-center">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="flex text-sm text-gray-600">
+                                    <label for="document" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                        <span>Tải lên một tài liệu</span>
+                                        <input id="document" name="document" type="file" accept=".pdf,.docx,.xlsx" class="sr-only" required />
+                                    </label>
+                                    <p class="pl-1">hoặc kéo thả vào đây</p>
+                                </div>
+                                <p class="text-xs text-gray-500">PDF, DOCX, XLSX lên đến 10MB</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="numQuestions" class="block text-sm font-medium text-gray-700">Số lượng câu hỏi</label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <input type="number" name="numQuestions" id="numQuestions" min="1" value="10" required
+                                class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                placeholder="Số lượng câu hỏi" />
+                        </div>
+                        <div id="tokenCost" class="mt-1 text-sm text-gray-500">
+                            Chi phí: <span class="font-medium text-indigo-600">50</span> token (5 token/câu)
+                        </div>
+                    </div>
+                    
+                    <script>
+                        document.getElementById('numQuestions').addEventListener('input', function() {
+                            const num = parseInt(this.value) || 0;
+                            const cost = num * 5;
+                            document.getElementById('tokenCost').innerHTML = 
+                                `Chi phí: <span class="font-medium text-indigo-600">${cost}</span> token (5 token/câu)`;
+                        });
+                    </script>
+                    
+                    <div class="flex justify-end">
+                        <button type="button" onclick="window.history.back()" class="mr-3 px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Hủy
+                        </button>
+                        <button type="submit" class="px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Tạo Quiz
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const dropZone = document.querySelector('.border-dashed');
+                const fileInput = document.getElementById('document');
+                const fileNameDisplay = document.createElement('p');
+                fileNameDisplay.className = 'mt-2 text-sm text-gray-600';
+                
+                // Hiển thị tên file đã chọn
+                fileInput.addEventListener('change', function() {
+                    if (this.files.length > 0) {
+                        const file = this.files[0];
+                        if (file.size > 10 * 1024 * 1024) { // 10MB limit
+                            alert('File quá lớn. Vui lòng chọn file nhỏ hơn 10MB.');
+                            this.value = '';
+                            return;
+                        }
+                        
+                        // Hiển thị tên file được chọn
+                        fileNameDisplay.textContent = `Đã chọn: ${file.name}`;
+                        dropZone.appendChild(fileNameDisplay);
+                        
+                        // Đổi style của drop zone khi đã chọn file
+                        dropZone.classList.add('bg-indigo-50', 'border-indigo-300');
+                    }
+                });
+                
+                // Xử lý sự kiện kéo thả
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, preventDefaults, false);
+                });
+                
+                function preventDefaults(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                // Đổi style khi kéo file vào
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, highlight, false);
+                });
+                
+                ['dragleave', 'drop'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, unhighlight, false);
+                });
+                
+                function highlight() {
+                    dropZone.classList.add('bg-indigo-50', 'border-indigo-300');
+                }
+                
+                function unhighlight() {
+                    dropZone.classList.remove('bg-indigo-50', 'border-indigo-300');
+                }
+                
+                // Xử lý file khi thả
+                dropZone.addEventListener('drop', handleDrop, false);
+                
+                function handleDrop(e) {
+                    const dt = e.dataTransfer;
+                    const files = dt.files;
+                    
+                    if (files.length > 0) {
+                        fileInput.files = files;
+                        
+                        // Kích hoạt sự kiện change để cập nhật UI
+                        const event = new Event('change', { bubbles: true });
+                        fileInput.dispatchEvent(event);
+                    }
+                }
+            });
+        </script>
+    }
+}
+
+templ MyQuizzes(quizzes []models.Quiz) {
+    @Page() {
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold text-gray-900">Quiz của tôi</h1>
+                <a href="/quiz/create" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                    Tạo Quiz mới
+                </a>
+            </div>
+            
+            if ctx.Value("error") != nil {
+                <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+                    <p>{ ctx.Value("error").(string) }</p>
+                </div>
+            }
+            
+            if len(quizzes) == 0 {
+                <div class="bg-white shadow-md rounded-lg p-8 text-center">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <h3 class="mt-2 text-sm font-medium text-gray-900">Không có quiz nào</h3>
+                    <p class="mt-1 text-sm text-gray-500">Bắt đầu bằng cách tạo quiz đầu tiên của bạn.</p>
+                    <div class="mt-6">
+                        <a href="/quiz/create" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">
+                            Tạo Quiz
+                        </a>
+                    </div>
+                </div>
+            } else {
+                <div class="bg-white shadow-md overflow-hidden sm:rounded-md">
+                    <ul class="divide-y divide-gray-200">
+                        for _, quiz := range quizzes {
+                            <li>
+                                <a href={ templ.SafeURL("/quiz/view/" + fmt.Sprintf("%d", quiz.ID)) } class="block hover:bg-gray-50">
+                                    <div class="px-4 py-4 sm:px-6">
+                                        <div class="flex items-center justify-between">
+                                            <div class="truncate">
+                                                <p class="text-sm font-medium text-indigo-600 truncate">{ quiz.Title }</p>
+                                                <p class="mt-1 flex items-center text-sm text-gray-500">
+                                                    <span class="truncate">{ quiz.Description }</span>
+                                                </p>
+                                            </div>
+                                            <div class="ml-2 flex-shrink-0 flex space-x-2">
+                                                if quiz.Status == models.QuizStatusPublished {
+                                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                        Đã xuất bản
+                                                    </span>
+                                                } else {
+                                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                        Bản nháp
+                                                    </span>
+                                                }
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                                    { fmt.Sprintf("%d câu hỏi", len(quiz.Questions)) }
+                                                </span>
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
+                                                    { fmt.Sprintf("%d token", quiz.TokenCost) }
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2 flex justify-between">
+                                            <div class="sm:flex">
+                                                <div class="flex items-center text-sm text-gray-500">
+                                                    <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                                                    </svg>
+                                                    <span>
+                                                        Tạo vào { quiz.CreatedAt.Format("02/01/2006") }
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <button data-quiz-id={ fmt.Sprintf("%d", quiz.ID) } class="delete-quiz-btn text-red-500 hover:text-red-700 text-sm">
+                                                Xóa
+                                            </button>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        document.querySelectorAll('.delete-quiz-btn').forEach(button => {
+                            button.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                
+                                const quizId = this.getAttribute('data-quiz-id');
+                                if (confirm('Bạn có chắc chắn muốn xóa quiz này?')) {
+                                    fetch(`/quiz/${quizId}`, {
+                                        method: 'DELETE',
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success) {
+                                            window.location.reload();
+                                        } else {
+                                            alert('Không thể xóa quiz: ' + (data.error || 'Lỗi không xác định'));
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error:', error);
+                                        alert('Đã xảy ra lỗi khi xóa quiz');
+                                    });
+                                }
+                            });
+                        });
+                    });
+                </script>
+            }
+        </div>
+    }
+}
+
+templ ViewQuiz(quiz models.Quiz) {
+    @Page() {
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold text-gray-900">{ quiz.Title }</h1>
+                <div class="flex space-x-3">
+                    <a href="/quiz/my-quizzes" class="px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                        Quay lại
+                    </a>
+                    <a href="#" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                        Chia sẻ Quiz
+                    </a>
+                </div>
+            </div>
+            
+            <div class="bg-white shadow rounded-lg p-6 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Chi tiết</h3>
+                        <div class="mt-2">
+                            <p class="text-sm text-gray-500">{ quiz.Description }</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Thông tin</h3>
+                        <div class="mt-2 space-y-2">
+                            <p class="text-sm text-gray-500">Số câu hỏi: <span class="font-medium text-gray-900">{ strconv.Itoa(len(quiz.Questions)) }</span></p>
+                            <p class="text-sm text-gray-500">Loại tài liệu: <span class="font-medium text-gray-900">{ strings.ToUpper(quiz.FileType) }</span></p>
+                            <p class="text-sm text-gray-500">Chi phí token: <span class="font-medium text-gray-900">{ strconv.Itoa(quiz.TokenCost) }</span></p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Chia sẻ</h3>
+                        <div class="mt-2">
+                            <div class="flex">
+                                <input type="text" value={ fmt.Sprintf("%s/quiz/shared/%s", os.Getenv("BASE_URL"), quiz.ShareCode) } readonly
+                                    class="flex-grow px-3 py-2 border border-gray-300 rounded-l-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                                <button id="copyShareLink" class="px-3 py-2 border border-l-0 border-gray-300 rounded-r-md bg-gray-50 text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <p class="mt-1 text-xs text-gray-500">Mã chia sẻ: <span class="font-medium">{ quiz.ShareCode }</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space-y-8 mt-8">
+                for i, question := range quiz.Questions {
+                    <div class="bg-white shadow rounded-lg p-6">
+                        <div class="flex justify-between">
+                            <h3 class="text-lg font-medium text-gray-900">Câu hỏi { strconv.Itoa(i+1) }</h3>
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                if question.Type == models.QuestionTypeMultipleChoice {
+                                    Trắc nghiệm
+                                } else if question.Type == models.QuestionTypeTrueFalse {
+                                    Đúng/Sai
+                                } else {
+                                    Tự luận
+                                }
+                            </span>
+                        </div>
+                        <div class="mt-4">
+                            <p class="text-gray-700">{ question.Content }</p>
+                            
+                            if question.Type != models.QuestionTypeShortAnswer {
+                                <div class="mt-4 space-y-2">
+                                    for j, option := range question.Options {
+                                        <div class="flex items-center">
+                                            <input id={ fmt.Sprintf("q%da%d", i, j) } name={ fmt.Sprintf("question_%d", i) } type="radio" disabled
+                                                class={ templ.KV("text-indigo-600 focus:ring-indigo-500", true) } />
+                                            <label for={ fmt.Sprintf("q%da%d", i, j) } class="ml-3 block text-sm text-gray-700">
+                                                { option.Content }
+                                                if option.IsCorrect {
+                                                    <span class="ml-2 text-green-600 font-medium">(Đáp án đúng)</span>
+                                                }
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            
+                            if question.Explanation != "" {
+                                <div class="mt-4 p-3 bg-yellow-50 rounded-md">
+                                    <h4 class="text-sm font-medium text-yellow-800">Giải thích:</h4>
+                                    <p class="mt-1 text-sm text-yellow-700">{ question.Explanation }</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const copyButton = document.getElementById('copyShareLink');
+                if (copyButton) {
+                    copyButton.addEventListener('click', function() {
+                        const shareInput = this.previousElementSibling;
+                        shareInput.select();
+                        document.execCommand('copy');
+                        
+                        // Show feedback
+                        const originalText = this.innerHTML;
+                        this.innerHTML = `
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        `;
+                        
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                        }, 2000);
+                    });
+                }
+            });
+        </script>
+    }
+}

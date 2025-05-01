@@ -36,7 +36,6 @@ func (hc *homeController) GetDogImage(ctx *gin.Context) {
 		return
 	} else {
 		ctx.Set("src", url)
-		views.DogImage().Render(ctx, ctx.Writer)
 	}
 }
 
