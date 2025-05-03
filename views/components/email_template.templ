@@ -1,16 +1,14 @@
 package components
 
-import (
-    "fmt"
-)
+import "fmt"
 
 templ VerificationEmailTemplate(username, code string, expiryMinutes int, verificationURL string) {
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Xác nhận tài khoản QuickQuiz của bạn</title>
-        <style>
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<meta charset="UTF-8"/>
+			<title>Xác nhận tài khoản QuickQuiz của bạn</title>
+			<style>
             body {
                 font-family: Arial, sans-serif;
                 line-height: 1.6;
@@ -59,25 +57,22 @@ templ VerificationEmailTemplate(username, code string, expiryMinutes int, verifi
                 font-size: 12px;
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <h2 class="header">Xin chào { username },</h2>
-            <p>Cảm ơn bạn đã đăng ký tài khoản QuickQuiz. Để hoàn tất quá trình đăng ký, vui lòng xác thực địa chỉ email của bạn.</p>
-            
-            <div class="code-box">
-                <h3 style="margin-top: 0;">Mã xác thực của bạn là:</h3>
-                <div class="verification-code">{ code }</div>
-                <p style="margin-bottom: 0; color: #6b7280;">Mã này sẽ hết hạn sau { fmt.Sprintf("%d", expiryMinutes) } phút.</p>
-            </div>
-            <p>Nếu bạn không đăng ký tài khoản, vui lòng bỏ qua email này.</p>
-            
-            <p>Trân trọng,<br>Đội ngũ QuickQuiz</p>
-        </div>
-        
-        <div class="footer">
-            <p>© 2025 QuickQuiz</p>
-        </div>
-    </body>
-    </html>
+		</head>
+		<body>
+			<div class="container">
+				<h2 class="header">Xin chào { username },</h2>
+				<p>Cảm ơn bạn đã đăng ký tài khoản QuickQuiz. Để hoàn tất quá trình đăng ký, vui lòng xác thực địa chỉ email của bạn.</p>
+				<div class="code-box">
+					<h3 style="margin-top: 0;">Mã xác thực của bạn là:</h3>
+					<div class="verification-code">{ code }</div>
+					<p style="margin-bottom: 0; color: #6b7280;">Mã này sẽ hết hạn sau { fmt.Sprintf("%d", expiryMinutes) } phút.</p>
+				</div>
+				<p>Nếu bạn không đăng ký tài khoản, vui lòng bỏ qua email này.</p>
+				<p>Trân trọng,<br/>Đội ngũ QuickQuiz</p>
+			</div>
+			<div class="footer">
+				<p>© 2025 QuickQuiz</p>
+			</div>
+		</body>
+	</html>
 }

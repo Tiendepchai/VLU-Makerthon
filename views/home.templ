@@ -1,352 +1,521 @@
 package views
 
-import (
-)
-
 templ Home() {
-    @Page() {
-        <!-- Hero Section -->
-        <div class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white">
-            <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8 lg:flex lg:items-center lg:justify-between">
-                <div class="lg:w-0 lg:flex-1">
-                    <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
-                        Tạo quiz thông minh từ tài liệu của bạn
-                    </h1>
-                    <p class="mt-6 max-w-xl text-xl">
-                        Upload tài liệu PDF, DOCX hoặc Excel và QuickQuiz sẽ tự động tạo quiz chất lượng cao, tiết kiệm thời gian giáo viên.
-                    </p>
-                    <div class="mt-10 flex gap-4">
-                        if ctx.Value("user") != nil {
-                            <a href="/create-quiz" class="px-8 py-4 rounded-md shadow-lg bg-white text-indigo-700 font-bold hover:bg-gray-100 transition duration-300 ease-in-out transform hover:scale-105">
-                                Tạo Quiz Ngay
-                            </a>
-                        } else {
-                            <a href="/auth/register" class="px-8 py-4 rounded-md shadow-lg bg-white text-indigo-700 font-bold hover:bg-gray-100 transition duration-300 ease-in-out transform hover:scale-105">
-                                Đăng ký miễn phí
-                            </a>
-                        }
-                        <a href="#how-it-works" class="px-8 py-4 rounded-md border border-white text-white font-medium hover:bg-white hover:bg-opacity-10 transition duration-300">
-                            Tìm hiểu thêm
-                        </a>
-                    </div>
-                </div>
-                <div class="mt-12 lg:mt-0 lg:ml-8 lg:flex-1">
-                    <div class="bg-white rounded-lg shadow-xl overflow-hidden">
-                        <img class="w-full" src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=500&q=80" alt="Quiz creation illustration" />
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Features Section -->
-        <div class="py-16 bg-white" id="how-it-works">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="lg:text-center">
-                    <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Cách thức hoạt động</h2>
-                    <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                        Tạo quiz chưa bao giờ dễ dàng đến thế
-                    </p>
-                    <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-                        Chỉ với 3 bước đơn giản, bạn đã có thể tạo quiz chất lượng cao từ tài liệu của mình.
-                    </p>
-                </div>
-
-                <div class="mt-16">
-                    <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-                        <div class="bg-gray-50 rounded-xl p-8 shadow-sm hover-lift">
-                            <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mb-5">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                                </svg>
-                            </div>
-                            <h3 class="text-xl font-medium text-gray-900">1. Tải tài liệu lên</h3>
-                            <p class="mt-4 text-gray-500">
-                                Tải lên tài liệu dạng PDF, DOCX hoặc Excel chứa nội dung bạn muốn tạo quiz.
-                            </p>
-                        </div>
-
-                        <div class="bg-gray-50 rounded-xl p-8 shadow-sm hover-lift">
-                            <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mb-5">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                                </svg>
-                            </div>
-                            <h3 class="text-xl font-medium text-gray-900">2. Xử lý thông minh</h3>
-                            <p class="mt-4 text-gray-500">
-                                Hệ thống trí tuệ nhân tạo của chúng tôi phân tích nội dung và tự động tạo các câu hỏi quiz chất lượng cao.
-                            </p>
-                        </div>
-
-                        <div class="bg-gray-50 rounded-xl p-8 shadow-sm hover-lift">
-                            <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mb-5">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                            <h3 class="text-xl font-medium text-gray-900">3. Sử dụng quiz</h3>
-                            <p class="mt-4 text-gray-500">
-                                Xuất quiz dưới nhiều định dạng, chia sẻ với học sinh hoặc nhúng vào website của bạn.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Type of Documents -->
-        <div class="py-16 bg-gray-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="lg:text-center">
-                    <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Đa dạng tài liệu</h2>
-                    <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                        Hỗ trợ nhiều loại tài liệu
-                    </p>
-                    <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-                        QuizCreator có thể tạo quiz từ nhiều định dạng tài liệu phổ biến.
-                    </p>
-                </div>
-
-                <div class="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">
-                    <div class="relative bg-white rounded-xl shadow-md overflow-hidden p-8">
-                        <div class="absolute top-0 right-0 h-24 w-24">
-                            <div class="absolute transform rotate-45 bg-indigo-600 text-white text-center text-xs font-semibold py-1 right-[-35px] top-[32px] w-[170px]">
-                                Phổ biến nhất
-                            </div>
-                        </div>
-                        <div class="h-16 w-16 bg-indigo-100 flex items-center justify-center rounded-lg mb-5">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-900">PDF</h3>
-                        <p class="mt-4 text-gray-500">
-                            Tải lên tài liệu PDF để tạo quiz trắc nghiệm hoặc tự luận. Hỗ trợ cả tài liệu scan.
-                        </p>
-                        <ul class="mt-6 space-y-2">
-                            <li class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="ml-2 text-gray-600">Hỗ trợ trích xuất văn bản</span>
-                            </li>
-                            <li class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="ml-2 text-gray-600">Nhận dạng hình ảnh (OCR)</span>
-                            </li>
-                            <li class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="ml-2 text-gray-600">Đa ngôn ngữ</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="bg-white rounded-xl shadow-md overflow-hidden p-8">
-                        <div class="h-16 w-16 bg-blue-100 flex items-center justify-center rounded-lg mb-5">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-900">Word (DOCX)</h3>
-                        <p class="mt-4 text-gray-500">
-                            Tạo quiz trực tiếp từ tài liệu Word với khả năng phân tích nội dung cấu trúc.
-                        </p>
-                        <ul class="mt-6 space-y-2">
-                            <li class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="ml-2 text-gray-600">Nhận dạng tiêu đề</span>
-                            </li>
-                            <li class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="ml-2 text-gray-600">Hỗ trợ định dạng phong phú</span>
-                            </li>
-                            <li class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="ml-2 text-gray-600">Trích xuất bảng</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="bg-white rounded-xl shadow-md overflow-hidden p-8">
-                        <div class="h-16 w-16 bg-green-100 flex items-center justify-center rounded-lg mb-5">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-900">Excel (XLSX)</h3>
-                        <p class="mt-4 text-gray-500">
-                            Tạo quiz từ dữ liệu bảng tính với nhiều tùy chỉnh nâng cao.
-                        </p>
-                        <ul class="mt-6 space-y-2">
-                            <li class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="ml-2 text-gray-600">Tạo quiz từ cột dữ liệu</span>
-                            </li>
-                            <li class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="ml-2 text-gray-600">Tùy chỉnh định dạng đáp án</span>
-                            </li>
-                            <li class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="ml-2 text-gray-600">Nhập sẵn câu hỏi & đáp án</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Testimonials -->
-        <div class="py-16 bg-white overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="lg:text-center">
-                    <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Đánh giá</h2>
-                    <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                        Khách hàng nói gì về chúng tôi
-                    </p>
-                </div>
-
-                <div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    <div class="bg-gray-50 rounded-xl shadow-sm overflow-hidden p-6">
-                        <div class="flex items-center mb-4">
-                            <div class="h-12 w-12 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold">
-                                TH
-                            </div>
-                            <div class="ml-4">
-                                <h4 class="text-lg font-bold">Thầy Hải</h4>
-                                <p class="text-gray-500">Giáo viên Toán, THPT Lê Hồng Phong</p>
-                            </div>
-                        </div>
-                        <div class="text-yellow-500 flex mb-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                        </div>
-                        <p class="text-gray-600 italic">
-                            "QuizCreator giúp tôi tiết kiệm hàng giờ chuẩn bị bài kiểm tra. Tôi chỉ việc tải tài liệu lên và hệ thống tự động tạo ra các câu hỏi chất lượng cao."
-                        </p>
-                    </div>
-
-                    <div class="bg-gray-50 rounded-xl shadow-sm overflow-hidden p-6">
-                        <div class="flex items-center mb-4">
-                            <div class="h-12 w-12 rounded-full bg-pink-500 flex items-center justify-center text-white font-bold">
-                                CH
-                            </div>
-                            <div class="ml-4">
-                                <h4 class="text-lg font-bold">Cô Hương</h4>
-                                <p class="text-gray-500">Giáo viên Văn, THCS Nguyễn Du</p>
-                            </div>
-                        </div>
-                        <div class="text-yellow-500 flex mb-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                        </div>
-                        <p class="text-gray-600 italic">
-                            "Tôi đặc biệt ấn tượng với khả năng tạo câu hỏi phân tích tác phẩm văn học. AI của QuizCreator thực sự hiểu nội dung văn học và tạo các câu hỏi sâu sắc."
-                        </p>
-                    </div>
-
-                    <div class="bg-gray-50 rounded-xl shadow-sm overflow-hidden p-6">
-                        <div class="flex items-center mb-4">
-                            <div class="h-12 w-12 rounded-full bg-green-500 flex items-center justify-center text-white font-bold">
-                                TL
-                            </div>
-                            <div class="ml-4">
-                                <h4 class="text-lg font-bold">Thầy Lâm</h4>
-                                <p class="text-gray-500">Hiệu trưởng, Trường THPT Chu Văn An</p>
-                            </div>
-                        </div>
-                        <div class="text-yellow-500 flex mb-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                        </div>
-                        <p class="text-gray-600 italic">
-                            "Ứng dụng này đã giúp trường chúng tôi tiết kiệm rất nhiều thời gian và nguồn lực. Giáo viên có thể tập trung vào giảng dạy thay vì dành hàng giờ chuẩn bị đề thi."
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- CTA Section -->
-        <div class="bg-indigo-600">
-            <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
-                <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-                    <span class="block">Sẵn sàng tạo quiz?</span>
-                    <span class="block text-indigo-200">Bắt đầu sử dụng QuizCreator ngay hôm nay.</span>
-                </h2>
-                <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
-                    <div class="inline-flex rounded-md shadow">
-                        if ctx.Value("user") != nil {
-                            <a href="/create-quiz" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50">
-                                Tạo Quiz Ngay
-                            </a>
-                        } else {
-                            <a href="/auth/register" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50">
-                                Đăng ký miễn phí
-                            </a>
-                        }
-                    </div>
-                    <div class="ml-3 inline-flex rounded-md shadow">
-                        <a href="/about" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-700">
-                            Tìm hiểu thêm
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
+	@PageWithMainLayout() {
+		<!-- Hero Section -->
+		<div class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white">
+			<div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8 lg:flex lg:items-center lg:justify-between">
+				<div class="lg:w-0 lg:flex-1">
+					<h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+						Tạo quiz thông minh từ tài liệu của bạn
+					</h1>
+					<p class="mt-6 max-w-xl text-xl">
+						Upload tài liệu PDF, DOCX hoặc Excel và QuickQuiz sẽ tự động tạo quiz chất lượng cao, tiết kiệm thời
+						gian giáo viên.
+					</p>
+					<div class="mt-10 flex gap-4">
+						if ctx.Value("user") != nil {
+							<a
+								href="/create-quiz"
+								class="px-8 py-4 rounded-md shadow-lg bg-white text-indigo-700 font-bold hover:bg-gray-100 transition duration-300 ease-in-out transform hover:scale-105"
+							>
+								Tạo Quiz Ngay
+							</a>
+						} else {
+							<a
+								href="/auth/register"
+								class="px-8 py-4 rounded-md shadow-lg bg-white text-indigo-700 font-bold hover:bg-gray-100 transition duration-300 ease-in-out transform hover:scale-105"
+							>
+								Đăng ký miễn phí
+							</a>
+						}
+						<a
+							href="#how-it-works"
+							class="px-8 py-4 rounded-md border border-white text-white font-medium hover:bg-white hover:bg-opacity-10 transition duration-300"
+						>
+							Tìm hiểu thêm
+						</a>
+					</div>
+				</div>
+				<div class="mt-12 lg:mt-0 lg:ml-8 lg:flex-1">
+					<div class="bg-white rounded-lg shadow-xl overflow-hidden">
+						<img
+							class="w-full"
+							src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=500&q=80"
+							alt="Quiz creation illustration"
+						/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Features Section -->
+		<div class="py-16 bg-white" id="how-it-works">
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div class="lg:text-center">
+					<h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Cách thức hoạt động</h2>
+					<p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+						Tạo quiz chưa bao giờ dễ dàng đến thế
+					</p>
+					<p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+						Chỉ với 3 bước đơn giản, bạn đã có thể tạo quiz chất lượng cao từ tài liệu của mình.
+					</p>
+				</div>
+				<div class="mt-16">
+					<div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+						<div class="bg-gray-50 rounded-xl p-8 shadow-sm hover-lift">
+							<div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mb-5">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-6 w-6 text-indigo-600"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+									></path>
+								</svg>
+							</div>
+							<h3 class="text-xl font-medium text-gray-900">1. Tải tài liệu lên</h3>
+							<p class="mt-4 text-gray-500">
+								Tải lên tài liệu dạng PDF, DOCX hoặc Excel chứa nội dung bạn muốn tạo quiz.
+							</p>
+						</div>
+						<div class="bg-gray-50 rounded-xl p-8 shadow-sm hover-lift">
+							<div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mb-5">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-6 w-6 text-indigo-600"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+									></path>
+								</svg>
+							</div>
+							<h3 class="text-xl font-medium text-gray-900">2. Xử lý thông minh</h3>
+							<p class="mt-4 text-gray-500">
+								Hệ thống trí tuệ nhân tạo của chúng tôi phân tích nội dung và tự động tạo các câu hỏi quiz chất
+								lượng cao.
+							</p>
+						</div>
+						<div class="bg-gray-50 rounded-xl p-8 shadow-sm hover-lift">
+							<div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mb-5">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-6 w-6 text-indigo-600"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+									></path>
+								</svg>
+							</div>
+							<h3 class="text-xl font-medium text-gray-900">3. Sử dụng quiz</h3>
+							<p class="mt-4 text-gray-500">
+								Xuất quiz dưới nhiều định dạng, chia sẻ với học sinh hoặc nhúng vào website của bạn.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Type of Documents -->
+		<div class="py-16 bg-gray-50">
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div class="lg:text-center">
+					<h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Đa dạng tài liệu</h2>
+					<p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+						Hỗ trợ nhiều loại tài liệu
+					</p>
+					<p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+						QuizCreator có thể tạo quiz từ nhiều định dạng tài liệu phổ biến.
+					</p>
+				</div>
+				<div class="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">
+					<div class="relative bg-white rounded-xl shadow-md overflow-hidden p-8">
+						<div class="absolute top-0 right-0 h-24 w-24">
+							<div
+								class="absolute transform rotate-45 bg-indigo-600 text-white text-center text-xs font-semibold py-1 right-[-35px] top-[32px] w-[170px]"
+							>
+								Phổ biến nhất
+							</div>
+						</div>
+						<div class="h-16 w-16 bg-indigo-100 flex items-center justify-center rounded-lg mb-5">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-8 w-8 text-indigo-600"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+								></path>
+							</svg>
+						</div>
+						<h3 class="text-xl font-bold text-gray-900">PDF</h3>
+						<p class="mt-4 text-gray-500">
+							Tải lên tài liệu PDF để tạo quiz trắc nghiệm hoặc tự luận. Hỗ trợ cả tài liệu scan.
+						</p>
+						<ul class="mt-6 space-y-2">
+							<li class="flex items-center">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-5 w-5 text-green-500"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+								</svg>
+								<span class="ml-2 text-gray-600">Hỗ trợ trích xuất văn bản</span>
+							</li>
+							<li class="flex items-center">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-5 w-5 text-green-500"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+								</svg>
+								<span class="ml-2 text-gray-600">Nhận dạng hình ảnh (OCR)</span>
+							</li>
+							<li class="flex items-center">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-5 w-5 text-green-500"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+								</svg>
+								<span class="ml-2 text-gray-600">Đa ngôn ngữ</span>
+							</li>
+						</ul>
+					</div>
+					<div class="bg-white rounded-xl shadow-md overflow-hidden p-8">
+						<div class="h-16 w-16 bg-blue-100 flex items-center justify-center rounded-lg mb-5">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-8 w-8 text-blue-600"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+								></path>
+							</svg>
+						</div>
+						<h3 class="text-xl font-bold text-gray-900">Word (DOCX)</h3>
+						<p class="mt-4 text-gray-500">
+							Tạo quiz trực tiếp từ tài liệu Word với khả năng phân tích nội dung cấu trúc.
+						</p>
+						<ul class="mt-6 space-y-2">
+							<li class="flex items-center">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-5 w-5 text-green-500"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+								</svg>
+								<span class="ml-2 text-gray-600">Nhận dạng tiêu đề</span>
+							</li>
+							<li class="flex items-center">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-5 w-5 text-green-500"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+								</svg>
+								<span class="ml-2 text-gray-600">Hỗ trợ định dạng phong phú</span>
+							</li>
+							<li class="flex items-center">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-5 w-5 text-green-500"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+								</svg>
+								<span class="ml-2 text-gray-600">Trích xuất bảng</span>
+							</li>
+						</ul>
+					</div>
+					<div class="bg-white rounded-xl shadow-md overflow-hidden p-8">
+						<div class="h-16 w-16 bg-green-100 flex items-center justify-center rounded-lg mb-5">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-8 w-8 text-green-600"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+								></path>
+							</svg>
+						</div>
+						<h3 class="text-xl font-bold text-gray-900">Excel (XLSX)</h3>
+						<p class="mt-4 text-gray-500">
+							Tạo quiz từ dữ liệu bảng tính với nhiều tùy chỉnh nâng cao.
+						</p>
+						<ul class="mt-6 space-y-2">
+							<li class="flex items-center">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-5 w-5 text-green-500"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+								</svg>
+								<span class="ml-2 text-gray-600">Tạo quiz từ cột dữ liệu</span>
+							</li>
+							<li class="flex items-center">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-5 w-5 text-green-500"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+								</svg>
+								<span class="ml-2 text-gray-600">Tùy chỉnh định dạng đáp án</span>
+							</li>
+							<li class="flex items-center">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-5 w-5 text-green-500"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+								</svg>
+								<span class="ml-2 text-gray-600">Nhập sẵn câu hỏi & đáp án</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Testimonials -->
+		<div class="py-16 bg-white overflow-hidden">
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div class="lg:text-center">
+					<h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Đánh giá</h2>
+					<p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+						Khách hàng nói gì về chúng tôi
+					</p>
+				</div>
+				<div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+					<div class="bg-gray-50 rounded-xl shadow-sm overflow-hidden p-6">
+						<div class="flex items-center mb-4">
+							<div
+								class="h-12 w-12 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold"
+							>
+								TH
+							</div>
+							<div class="ml-4">
+								<h4 class="text-lg font-bold">Thầy Hải</h4>
+								<p class="text-gray-500">Giáo viên Toán, THPT Lê Hồng Phong</p>
+							</div>
+						</div>
+						<div class="text-yellow-500 flex mb-3">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+								<path
+									d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+								></path>
+							</svg>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+								<path
+									d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+								></path>
+							</svg>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+								<path
+									d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+								></path>
+							</svg>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+								<path
+									d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+								></path>
+							</svg>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+								<path
+									d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+								></path>
+							</svg>
+						</div>
+						<p class="text-gray-600 italic">
+							"QuizCreator giúp tôi tiết kiệm hàng giờ chuẩn bị bài kiểm tra. Tôi chỉ việc tải tài liệu lên và hệ
+							thống tự động tạo ra các câu hỏi chất lượng cao."
+						</p>
+					</div>
+					<div class="bg-gray-50 rounded-xl shadow-sm overflow-hidden p-6">
+						<div class="flex items-center mb-4">
+							<div
+								class="h-12 w-12 rounded-full bg-pink-500 flex items-center justify-center text-white font-bold"
+							>
+								CH
+							</div>
+							<div class="ml-4">
+								<h4 class="text-lg font-bold">Cô Hương</h4>
+								<p class="text-gray-500">Giáo viên Văn, THCS Nguyễn Du</p>
+							</div>
+						</div>
+						<div class="text-yellow-500 flex mb-3">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+								<path
+									d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+								></path>
+							</svg>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+								<path
+									d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+								></path>
+							</svg>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+								<path
+									d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+								></path>
+							</svg>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+								<path
+									d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+								></path>
+							</svg>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+								<path
+									d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+								></path>
+							</svg>
+						</div>
+						<p class="text-gray-600 italic">
+							"Tôi đặc biệt ấn tượng với khả năng tạo câu hỏi phân tích tác phẩm văn học. AI của QuizCreator thực
+							sự hiểu nội dung văn học và tạo các câu hỏi sâu sắc."
+						</p>
+					</div>
+					<div class="bg-gray-50 rounded-xl shadow-sm overflow-hidden p-6">
+						<div class="flex items-center mb-4">
+							<div
+								class="h-12 w-12 rounded-full bg-green-500 flex items-center justify-center text-white font-bold"
+							>
+								TL
+							</div>
+							<div class="ml-4">
+								<h4 class="text-lg font-bold">Thầy Lâm</h4>
+								<p class="text-gray-500">Hiệu trưởng, Trường THPT Chu Văn An</p>
+							</div>
+						</div>
+						<div class="text-yellow-500 flex mb-3">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+								<path
+									d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+								></path>
+							</svg>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+								<path
+									d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+								></path>
+							</svg>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+								<path
+									d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+								></path>
+							</svg>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+								<path
+									d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+								></path>
+							</svg>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+								<path
+									d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+								></path>
+							</svg>
+						</div>
+						<p class="text-gray-600 italic">
+							"Ứng dụng này đã giúp trường chúng tôi tiết kiệm rất nhiều thời gian và nguồn lực. Giáo viên có thể
+							tập trung vào giảng dạy thay vì dành hàng giờ chuẩn bị đề thi."
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- CTA Section -->
+		<div class="bg-indigo-600">
+			<div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
+				<h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+					<span class="block">Sẵn sàng tạo quiz?</span>
+					<span class="block text-indigo-200">Bắt đầu sử dụng QuizCreator ngay hôm nay.</span>
+				</h2>
+				<div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+					<div class="inline-flex rounded-md shadow">
+						if ctx.Value("user") != nil {
+							<a
+								href="/create-quiz"
+								class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50"
+							>
+								Tạo Quiz Ngay
+							</a>
+						} else {
+							<a
+								href="/auth/register"
+								class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50"
+							>
+								Đăng ký miễn phí
+							</a>
+						}
+					</div>
+					<div class="ml-3 inline-flex rounded-md shadow">
+						<a
+							href="/about"
+							class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-700"
+						>
+							Tìm hiểu thêm
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
 }
