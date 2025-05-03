@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+body {
+  font-family: "Inter", sans-serif;
+}
+.gradient-bg {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+}
+.hover-lift {
+  transition: transform 0.25s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-5px);
+}
